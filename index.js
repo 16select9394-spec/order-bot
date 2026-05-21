@@ -24,7 +24,33 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
     if (event.message.type !== "text") continue;
 
     const msg = event.message.text;
+if (msg.startsWith("綁定")) {
 
+  const phone = msg.replace("綁定", "").trim();
+
+  try {
+
+    await axios.get(
+      `${GAS_URL}?action=bind&phone=${phone}&userId=${event.source.userId}`
+    );
+
+    await client.replyMessage(event.replyToken, {
+      type: "text",
+      text: "綁定成功✨\n之後直接輸入「查詢」即可",
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    await client.replyMessage(event.replyToken, {
+      type: "text",
+      text: "綁定失敗",
+    });
+  }
+
+  continue;
+}
     if (msg.startsWith("查詢")) {
 
       const phone = msg.replace("查詢", "").trim();
