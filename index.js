@@ -15,7 +15,7 @@ const config = {
 const client = new line.Client(config);
 
 const GAS_URL =
-  "https://script.google.com/macros/s/AKfycbw01qHBxBKjHwtQAgMu9ILnonNJHo_HYHSA0JcJTmz9jkFL2mjLJs7oiDH0LFmF2BrC/exec";
+  "https://script.google.com/macros/s/AKfycbw01qHBxBKjHwtQAgMu9ILnonNJHo_HYHSA0JcJTmz9jkFL2mjLJs7oiDHOLFmF2BrC/exec";
 
 app.post(
   "/webhook",
