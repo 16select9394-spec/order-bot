@@ -5,154 +5,144 @@ const axios = require("axios");
 const app = express();
 
 const config = {
-  channelAccessToken: "kAKDXeAko7i9UGGDyij2zXJbucqiHekiPhQCc4mfMx21itxfo8Sj6OERrtySQrxFbuCoJTtmdC6qPpdPsQDNegJrTp0/9id1BhUf5Qdo8B5fI0ouYPkyBeFmFynG0R0aCfZyyus5CQE1EpB/rfCD8gdB04t89/1O/w1cDnyilFU=",
-  channelSecret: "35550c61f3000a0f4c8af1768b0d99a1",
+  channelAccessToken:
+    "kAKDXeAko7i9UGGDyij2zXJbucqiHekiPhQCc4mfMx21itxfo8Sj6OERrtySQrxFbuCoJTtmdC6qPpdPsQDNegJrTp0/9id1BhUf5Qdo8B5fI0uvYPkvBeFmFvnG0R0aCfZvvus5CQE1EpB/rfCD8gdB04t89/1O/w1cDnyi1FU=",
+
+  channelSecret:
+    "35550c61f3000a0f4c8af1768b0d99a1",
 };
 
 const client = new line.Client(config);
 
-const GAS_URL = "你的GAS網址";
+const GAS_URL =
+  "https://script.google.com/macros/s/AKfycbw01qHBxBKjHwtQAgMu9ILnonNJHo_HYHSA0JcJTmz9jkFL2mjLJs7oiDH0LFmF2BrC/exec";
 
-app.post("/webhook", line.middleware(config), async (req, res) => {
+app.post(
+  "/webhook",
+  line.middleware(config),
+  async (req, res) => {
+    try {
+      const events = req.body.events;
 
-  try {
+      for (const event of events) {
+        if (event.type !== "message") continue;
+        if (event.message.type !== "text") continue;
 
-    const events = req.body.events;
+        const msg = event.message.text.trim();
 
-    for (const event of events) {
+        // =====================
+        // 綁定
+        // =====================
 
-      if (event.type !== "message") continue;
-      if (event.message.type !== "text") continue;
+        if (msg.startsWith("綁定")) {
+          const phone = msg.replace("綁定", "").trim();
 
-      const msg = event.message.text.trim();
+          try {
+            await axios.get(
+              `${GAS_URL}?action=bind&phone=${phone}&userId=${event.source.userId}`
+            );
 
-      // =====================
-      // 綁定
-      // =====================
-      if (msg.startsWith("綁定")) {
-
-        const phone = msg.replace("綁定", "").trim();
-
-        await axios.get(
-          `${GAS_URL}?action=bind&phone=${encodeURIComponent(phone)}&userId=${encodeURIComponent(event.source.userId)}`
-        );
-
-        await client.replyMessage(
-          event.replyToken,
-          {
-            type: "text",
-            text: "綁定成功✨"
-          }
-        );
-
-        continue;
-      }
-
-      // =====================
-      // 查詢
-      // =====================
-      if (msg === "查詢") {
-
-        const phoneRes = await axios.get(
-          `${GAS_URL}?action=getPhone&userId=${encodeURIComponent(event.source.userId)}`
-        );
-
-        const phone = phoneRes.data;
-
-        if (!phone) {
-
-          await client.replyMessage(
-            event.replyToken,
-            {
+            await client.replyMessage(event.replyToken, {
               type: "text",
-              text: "請先輸入：\n綁定 你的電話"
-            }
-          );
+              text: "綁定成功✨",
+            });
+          } catch (err) {
+            console.log(err);
+
+            await client.replyMessage(event.replyToken, {
+              type: "text",
+              text: "綁定失敗",
+            });
+          }
 
           continue;
         }
 
-        const response = await axios.get(
-          `${GAS_URL}?phone=${encodeURIComponent(phone)}`
-        );
+        // =====================
+        // 查詢已綁定電話
+        // =====================
 
-        const data = response.data;
+        if (msg === "查詢") {
+          try {
+            const bindRes = await axios.get(
+              `${GAS_URL}?action=getPhone&userId=${event.source.userId}`
+            );
 
-        if (!data || data.length === 0) {
+            const phone = bindRes.data.phone;
 
-          await client.replyMessage(
-            event.replyToken,
-            {
-              type: "text",
-              text: "查無訂單"
+            if (!phone) {
+              await client.replyMessage(event.replyToken, {
+                type: "text",
+                text: "請先輸入：綁定 你的電話",
+              });
+
+              continue;
             }
-          );
+
+            const result = await axios.get(
+              `${GAS_URL}?phone=${phone}`
+            );
+
+            await client.replyMessage(event.replyToken, {
+              type: "text",
+              text: result.data,
+            });
+          } catch (err) {
+            console.log(err);
+
+            await client.replyMessage(event.replyToken, {
+              type: "text",
+              text: "查詢失敗",
+            });
+          }
 
           continue;
         }
 
-        let text = "";
+        // =====================
+        // 直接查電話
+        // =====================
 
-        data.forEach(item => {
+        if (msg.startsWith("查詢")) {
+          const phone = msg.replace("查詢", "").trim();
 
-          text +=
-`【${item.sheet}】
+          try {
+            const result = await axios.get(
+              `${GAS_URL}?phone=${phone}`
+            );
 
-姓名：${item.name}
+            await client.replyMessage(event.replyToken, {
+              type: "text",
+              text: result.data,
+            });
+          } catch (err) {
+            console.log(err);
 
-商品：${item.product}
-
-數量：${item.qty}
-
-目前狀態：${item.status}
-
-貨運單號：${item.tracking || "尚未出貨"}
-
--------------------
-
-`;
-        });
-
-        await client.replyMessage(
-          event.replyToken,
-          {
-            type: "text",
-            text
+            await client.replyMessage(event.replyToken, {
+              type: "text",
+              text: "查詢失敗",
+            });
           }
-        );
 
-        continue;
+          continue;
+        }
       }
 
-      // =====================
-      // 預設
-      // =====================
+      res.status(200).end();
 
-      await client.replyMessage(
-        event.replyToken,
-        {
-          type: "text",
-          text: "請輸入：\n綁定 你的電話\n或輸入：查詢"
-        }
-      );
+    } catch (err) {
+      console.log(err);
+      res.status(500).end();
     }
-
-    res.sendStatus(200);
-
-  } catch (error) {
-
-    console.log(error);
-
-    res.sendStatus(500);
   }
-});
+);
 
 app.get("/", (req, res) => {
-  res.send("OK");
+  res.send("bot running");
 });
 
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-  console.log(`Server running on ${port}`);
+  console.log(`running ${port}`);
 });
