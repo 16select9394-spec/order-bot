@@ -73,43 +73,99 @@ if (msg.startsWith("綁定")) {
 }
 
 
-        // =====================
-        // 查詢
-        // =====================
+    // =====================
+// 查詢已綁定電話
+// =====================
 
-        if (msg.startsWith("查詢")) {
+if (msg === "查詢") {
 
-          const phone = msg.replace("查詢", "").trim();
+  try {
 
-          try {
+    const bindRes = await axios.get(
+      `${GAS_URL}?action=getPhone&userId=${event.source.userId}`
+    );
 
-            const result = await axios.get(
-              `${GAS_URL}?phone=${phone}`
-            );
+    const data = bindRes.data;
 
-            await client.replyMessage(
-              event.replyToken,
-              {
-                type: "text",
-                text: result.data,
-              }
-            );
+    if (!data.phone) {
 
-          } catch (err) {
-
-            console.log(err);
-
-            await client.replyMessage(
-              event.replyToken,
-              {
-                type: "text",
-                text: "查詢失敗",
-              }
-            );
-          }
+      await client.replyMessage(
+        event.replyToken,
+        {
+          type: "text",
+          text: "請先輸入：綁定 你的電話",
         }
-      }
+      );
 
+      continue;
+    }
+
+    const result = await axios.get(
+      `${GAS_URL}?phone=${data.phone}`
+    );
+
+    await client.replyMessage(
+      event.replyToken,
+      {
+        type: "text",
+        text: result.data,
+      }
+    );
+
+  } catch (err) {
+
+    console.log(err);
+
+    await client.replyMessage(
+      event.replyToken,
+      {
+        type: "text",
+        text: "查詢失敗",
+      }
+    );
+  }
+
+  continue;
+}
+
+// =====================
+// 直接查電話
+// =====================
+
+if (msg.startsWith("查詢 ")) {
+
+  const phone =
+    msg.replace("查詢", "").trim();
+
+  try {
+
+    const result = await axios.get(
+      `${GAS_URL}?phone=${phone}`
+    );
+
+    await client.replyMessage(
+      event.replyToken,
+      {
+        type: "text",
+        text: result.data,
+      }
+    );
+
+  } catch (err) {
+
+    console.log(err);
+
+    await client.replyMessage(
+      event.replyToken,
+      {
+        type: "text",
+        text: "查詢失敗",
+      }
+    );
+  }
+
+  continue;
+}
       res.status(200).end();
 
     } catch (err) {
