@@ -34,19 +34,25 @@ if (msg.startsWith("綁定")) {
       `${GAS_URL}?action=bind&phone=${phone}&userId=${event.source.userId}`
     );
 
-    await client.replyMessage(event.replyToken, {
-      type: "text",
-      text: "綁定成功✨\n之後直接輸入「查詢」即可",
-    });
+    await client.replyMessage(
+      event.replyToken,
+      {
+        type: "text",
+        text: "綁定成功✨\n之後直接輸入「查詢」即可",
+      }
+    );
 
   } catch (error) {
 
     console.log(error);
 
-    await client.replyMessage(event.replyToken, {
-      type: "text",
-      text: "綁定失敗",
-    });
+    await client.replyMessage(
+      event.replyToken,
+      {
+        type: "text",
+        text: "綁定失敗",
+      }
+    );
   }
 
   continue;
