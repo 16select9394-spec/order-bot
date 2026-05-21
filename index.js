@@ -5,7 +5,7 @@ const axios = require("axios");
 const app = express();
 
 const config = {
-  channelAccessToken: "PHiNShzmvgCaKeInCkmHYu5mU6rvRylR4CAiYAqW6LZH1N5ldk70rrOj7lPDuoBpNKhx4T2Xj0uOjeYgovzBAaR9LfdEtDFzJLq9b5OWId6FG0GrHOzetBwtw0UOWmz4afPS8nD8BnvZjfU8qZq30AdB04t89/1O/w1cDnyilFU=",
+  channelAccessToken: "JvBORLammhghSsrk1xJnuChZ+7xRplqpK2D0vujNMNvfintLD7paRjprVWJxD7CJNKhx4T2Xj0uOjeYgovzBAaR9LfdEtDFzJLq9b5OWId5jWs+wVNdrZH5vSD7Li+AEgkNti7CaPZWgEmxbFBlqegdB04t89/1O/w1cDnyilFU=",
   channelSecret: "b438e4a8a038be4b3785482501defe45",
 };
 
