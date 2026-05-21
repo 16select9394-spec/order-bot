@@ -44,7 +44,7 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
             event.replyToken,
             {
               type: "text",
-              text: "綁定成功✨"
+              text: "綁定成功✨可以開始查詢囉"
             }
           );
 
