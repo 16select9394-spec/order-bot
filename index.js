@@ -33,6 +33,46 @@ app.post(
 
         const msg = event.message.text.trim();
 
+// =====================
+// 綁定
+// =====================
+
+if (msg.startsWith("綁定")) {
+
+  const phone =
+    msg.replace("綁定", "").trim();
+
+  try {
+
+    await axios.get(
+      `${GAS_URL}?action=bind&phone=${phone}&userId=${event.source.userId}`
+    );
+
+    await client.replyMessage(
+      event.replyToken,
+      {
+        type: "text",
+        text: "綁定成功✨",
+      }
+    );
+
+  } catch (err) {
+
+    console.log(err);
+
+    await client.replyMessage(
+      event.replyToken,
+      {
+        type: "text",
+        text: "綁定失敗",
+      }
+    );
+  }
+
+  continue;
+}
+
+
         // =====================
         // 查詢
         // =====================
