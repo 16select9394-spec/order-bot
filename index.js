@@ -1,4 +1,3 @@
-
 const express = require("express");
 const line = require("@line/bot-sdk");
 const axios = require("axios");
@@ -6,7 +5,7 @@ const axios = require("axios");
 const app = express();
 
 const config = {
-  channelAccessToken: "Cbt1J8I6X3pOROsSNJ+xoilxnMdjeaXbo4h+uoEavwYfSqZoh6F+m9/U4UVqaTzUbuCoJTtmdC6qPpdPsQDNegJrTp0/9id1BhUf5Qdo8B6EMFCsgAutkePqYZe+7RUnakCtCvRuVVXOoAi5iBg0IAdB04t89/1O/w1cDnyilFU=",
+  channelAccessToken: "kAKDXeAko7i9UGGDyij2zXJbucqiHekiPhQCc4mfMx21itxfo8Sj6OERrtySQrxFbuCoJTtmdC6qPpdPsQDNegJrTp0/9id1BhUf5Qdo8B5fI0ouYPkyBeFmFynG0R0aCfZyyus5CQE1EpB/rfCD8gdB04t89/1O/w1cDnyilFU=",
   channelSecret: "35550c61f3000a0f4c8af1768b0d99a1",
 };
 
@@ -18,112 +17,114 @@ const GAS_URL = "你的GAS網址";
 
 app.post("/webhook", line.middleware(config), async (req, res) => {
 
-  const events = req.body.events;
+  try {
 
-  for (const event of events) {
+    const events = req.body.events;
 
-    if (event.type !== "message") continue;
-    if (event.message.type !== "text") continue;
+    for (const event of events) {
 
-    const msg = event.message.text.trim();
+      if (event.type !== "message") continue;
+      if (event.message.type !== "text") continue;
 
-    // =========================
-    // 綁定電話
-    // =========================
-    if (msg.startsWith("綁定")) {
+      const msg = event.message.text.trim();
 
-      const phone = msg.replace("綁定", "").trim();
+      // =====================
+      // 綁定
+      // =====================
+      if (msg.startsWith("綁定")) {
 
-      try {
+        const phone = msg.replace("綁定", "").trim();
 
-        await axios.get(
-          `${GAS_URL}?action=bind&phone=${encodeURIComponent(phone)}&userId=${encodeURIComponent(event.source.userId)}`
-        );
+        try {
 
-        await client.replyMessage({
-          replyToken: event.replyToken,
-          messages: [
-            {
-              type: "text",
-              text: "綁定成功✨\n之後直接輸入「查詢」即可"
-            }
-          ]
-        });
+          await axios.get(
+            `${GAS_URL}?action=bind&phone=${encodeURIComponent(phone)}&userId=${encodeURIComponent(event.source.userId)}`
+          );
 
-      } catch (error) {
+          await client.replyMessage({
+            replyToken: event.replyToken,
+            messages: [
+              {
+                type: "text",
+                text: "綁定成功✨"
+              }
+            ]
+          });
 
-        console.log(error);
+        } catch (err) {
 
-        await client.replyMessage({
-          replyToken: event.replyToken,
-          messages: [
-            {
-              type: "text",
-              text: "綁定失敗"
-            }
-          ]
-        });
+          console.log(err);
+
+          await client.replyMessage({
+            replyToken: event.replyToken,
+            messages: [
+              {
+                type: "text",
+                text: "綁定失敗"
+              }
+            ]
+          });
+        }
+
+        continue;
       }
 
-      continue;
-    }
+      // =====================
+      // 查詢
+      // =====================
+      if (msg === "查詢") {
 
-    // =========================
-    // 查詢訂單
-    // =========================
-    if (msg === "查詢") {
+        try {
 
-      try {
+          // 取得綁定電話
+          const phoneRes = await axios.get(
+            `${GAS_URL}?action=getPhone&userId=${encodeURIComponent(event.source.userId)}`
+          );
 
-        // 先取得綁定電話
-        const phoneRes = await axios.get(
-          `${GAS_URL}?action=getPhone&userId=${encodeURIComponent(event.source.userId)}`
-        );
+          const phone = phoneRes.data;
 
-        const phone = phoneRes.data;
+          if (!phone) {
 
-        if (!phone) {
+            await client.replyMessage({
+              replyToken: event.replyToken,
+              messages: [
+                {
+                  type: "text",
+                  text: "請先輸入：\n綁定 你的電話"
+                }
+              ]
+            });
 
-          await client.replyMessage({
-            replyToken: event.replyToken,
-            messages: [
-              {
-                type: "text",
-                text: "請先輸入：\n綁定 你的電話"
-              }
-            ]
-          });
+            continue;
+          }
 
-          continue;
-        }
+          // 查詢訂單
+          const response = await axios.get(
+            `${GAS_URL}?phone=${encodeURIComponent(phone)}`
+          );
 
-        // 查詢訂單
-        const response = await axios.get(
-          `${GAS_URL}?phone=${encodeURIComponent(phone)}`
-        );
+          const data = response.data;
 
-        const data = response.data;
+          if (!data || data.length === 0) {
 
-        if (!data || data.length === 0) {
+            await client.replyMessage({
+              replyToken: event.replyToken,
+              messages: [
+                {
+                  type: "text",
+                  text: "查無訂單"
+                }
+              ]
+            });
 
-          await client.replyMessage({
-            replyToken: event.replyToken,
-            messages: [
-              {
-                type: "text",
-                text: "查無訂單"
-              }
-            ]
-          });
+            continue;
+          }
 
-          continue;
-        }
+          let text = "";
 
-        let text = "";
+          data.forEach(item => {
 
-        data.forEach(item => {
-
-          text +=
+            text +=
 `【${item.sheet}】
 
 姓名：${item.name}
@@ -145,51 +146,62 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
 -------------------
 
 `;
-        });
+          });
 
-        await client.replyMessage({
-          replyToken: event.replyToken,
-          messages: [
-            {
-              type: "text",
-              text
-            }
-          ]
-        });
+          await client.replyMessage({
+            replyToken: event.replyToken,
+            messages: [
+              {
+                type: "text",
+                text
+              }
+            ]
+          });
 
-      } catch (error) {
+        } catch (err) {
 
-        console.log(error);
+          console.log(err);
 
-        await client.replyMessage({
-          replyToken: event.replyToken,
-          messages: [
-            {
-              type: "text",
-              text: "查詢失敗"
-            }
-          ]
-        });
+          await client.replyMessage({
+            replyToken: event.replyToken,
+            messages: [
+              {
+                type: "text",
+                text: "查詢失敗"
+              }
+            ]
+          });
+        }
+
+        continue;
       }
 
-      continue;
+      // =====================
+      // 其他訊息
+      // =====================
+      await client.replyMessage({
+        replyToken: event.replyToken,
+        messages: [
+          {
+            type: "text",
+            text: "請輸入：\n綁定 你的電話\n或輸入：查詢"
+          }
+        ]
+      });
     }
 
-    // =========================
-    // 預設訊息
-    // =========================
-    await client.replyMessage({
-      replyToken: event.replyToken,
-      messages: [
-        {
-          type: "text",
-          text: "請輸入：\n綁定 你的電話\n或直接輸入：查詢"
-        }
-      ]
-    });
-  }
+    res.sendStatus(200);
 
-  res.sendStatus(200);
+  } catch (error) {
+
+    console.log(error);
+
+    res.sendStatus(500);
+  }
+});
+
+app.get("/", (req, res) => {
+  res.send("OK");
 });
 
 const port = process.env.PORT || 3000;
