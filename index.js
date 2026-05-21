@@ -1,3 +1,4 @@
+
 const express = require("express");
 const line = require("@line/bot-sdk");
 const axios = require("axios");
@@ -9,9 +10,7 @@ const config = {
   channelSecret: "35550c61f3000a0f4c8af1768b0d99a1",
 };
 
-const client = new line.messagingApi.MessagingApiClient({
-  channelAccessToken: config.channelAccessToken,
-});
+const client = new line.Client(config);
 
 const GAS_URL = "https://script.google.com/macros/s/AKfycbw01qHBxBKjHwtQAgMu9ILnonNJHo_HYHSA0JcJTmz9jkFL2mjLJs7oiDHOLFmF2BrC/exec";
 
@@ -26,7 +25,6 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
 
     const msg = event.message.text;
 
-    // 查詢訂單
     if (msg.startsWith("查詢")) {
 
       const phone = msg.replace("查詢", "").trim();
@@ -39,14 +37,9 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
 
         if (data.length === 0) {
 
-          await client.replyMessage({
-            replyToken: event.replyToken,
-            messages: [
-              {
-                type: "text",
-                text: "查無進行中訂單",
-              },
-            ],
+          await client.replyMessage(event.replyToken, {
+            type: "text",
+            text: "查無進行中訂單",
           });
 
           continue;
@@ -84,34 +77,28 @@ ${order.tracking || "尚未出貨"}
 `;
         });
 
-        await client.replyMessage({
-          replyToken: event.replyToken,
-          messages: [
-            {
-              type: "text",
-              text: replyText,
-            },
-          ],
+        await client.replyMessage(event.replyToken, {
+          type: "text",
+          text: replyText,
         });
 
       } catch (error) {
 
         console.log(error);
 
-        await client.replyMessage({
-          replyToken: event.replyToken,
-          messages: [
-            {
-              type: "text",
-              text: "查詢失敗，請稍後再試",
-            },
-          ],
+        await client.replyMessage(event.replyToken, {
+          type: "text",
+          text: "查詢失敗",
         });
       }
     }
   }
 
   res.sendStatus(200);
+});
+
+app.get("/", (req, res) => {
+  res.send("Order bot running");
 });
 
 app.listen(process.env.PORT || 3000, () => {
