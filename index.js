@@ -37,7 +37,7 @@ if (msg === "更多功能") {
         type: "bubble",
         hero: {
           type: "image",
-          url: "https://raw.githubusercontent.com/16select9394-spec/order-bot/main/2.png",
+          url: "https://raw.githubusercontent.com/16select9394-spec/order-bot/main/ChatGPT%20Image%202026%E5%B9%B45%E6%9C%8824%E6%97%A5%20%E4%B8%8B%E5%8D%8810_25_06.png",
           size: "full",
           aspectRatio: "4:7",
           aspectMode: "cover"
