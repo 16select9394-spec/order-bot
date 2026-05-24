@@ -31,9 +31,18 @@ if (msg === "更多功能") {
   await client.replyMessage(
     event.replyToken,
     {
-      type: "image",
-      originalContentUrl: "https://raw.githubusercontent.com/16select9394-spec/order-bot/main/2.png",
-      previewImageUrl: "https://raw.githubusercontent.com/16select9394-spec/order-bot/main/2.png"
+      type: "flex",
+      altText: "更多功能",
+      contents: {
+        type: "bubble",
+        hero: {
+          type: "image",
+          url: "https://raw.githubusercontent.com/16select9394-spec/order-bot/main/2.png",
+          size: "full",
+          aspectRatio: "4:7",
+          aspectMode: "cover"
+        }
+      }
     }
   );
 
