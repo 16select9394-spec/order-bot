@@ -28,117 +28,33 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
 
 if (msg === "更多功能") {
 
-  await client.replyMessage(
-    event.replyToken,
+  await axios.post(
+    "https://api.line.me/v2/bot/user/" + event.source.userId + "/richmenu/switch",
     {
-      type: "flex",
-      altText: "更多功能",
-      contents: {
-        type: "bubble",
+      richMenuAliasId: "more"
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.CHANNEL_ACCESS_TOKEN}`,
+        "Content-Type": "application/json"
+      }
+    }
+  );
 
-        hero: {
-          type: "image",
-          url: "https://raw.githubusercontent.com/16select9394-spec/order-bot/main/ChatGPT%20Image%202026%E5%B9%B45%E6%9C%8824%E6%97%A5%20%E4%B8%8B%E5%8D%8810_25_06.png",
-          size: "full",
-          aspectRatio: "4:7",
-          aspectMode: "cover"
-        },
+  continue;
+}
 
-        body: {
-          type: "box",
-          layout: "vertical",
-          contents: [],
-          paddingAll: "0px",
-          margin: "0px",
-          spacing: "0px",
-          height: "0px"
-        },
+if (msg === "回首頁") {
 
-        footer: {
-          type: "box",
-          layout: "vertical",
-          spacing: "none",
-          contents: [
-
-            {
-              type: "button",
-              style: "secondary",
-              color: "#FFFFFF00",
-              height: "sm",
-              action: {
-                type: "message",
-                label: " ",
-                text: "綁定教學"
-              }
-            },
-
-            {
-              type: "button",
-              style: "secondary",
-              color: "#FFFFFF00",
-              height: "sm",
-              action: {
-                type: "message",
-                label: " ",
-                text: "代收"
-              }
-            },
-
-            {
-              type: "button",
-              style: "secondary",
-              color: "#FFFFFF00",
-              height: "sm",
-              action: {
-                type: "uri",
-                label: " ",
-                uri: "https://myship.7-11.com.tw/seller/profile?id=GM2601202418281"
-              }
-            },
-
-            {
-              type: "button",
-              style: "secondary",
-              color: "#FFFFFF00",
-              height: "sm",
-              action: {
-                type: "uri",
-                label: " ",
-                uri: "https://linktr.ee/16select"
-              }
-            },
-
-            {
-              type: "button",
-              style: "secondary",
-              color: "#FFFFFF00",
-              height: "sm",
-              action: {
-                type: "uri",
-                label: " ",
-                uri: "https://lin.ee/jpYHz4Q"
-              }
-            },
-
-            {
-              type: "button",
-              style: "secondary",
-              color: "#FFFFFF00",
-              height: "sm",
-              action: {
-                type: "message",
-                label: " ",
-                text: "最新公告"
-              }
-            }
-
-          ],
-
-          flex: 0,
-          paddingAll: "0px",
-          margin: "-720px"
-        }
-
+  await axios.post(
+    "https://api.line.me/v2/bot/user/" + event.source.userId + "/richmenu/switch",
+    {
+      richMenuAliasId: "home"
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.CHANNEL_ACCESS_TOKEN}`,
+        "Content-Type": "application/json"
       }
     }
   );
