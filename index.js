@@ -31,87 +31,23 @@ if (msg === "更多功能") {
   await client.replyMessage(
     event.replyToken,
     {
-    type: "imagemap",
-    baseUrl: "https://raw.githubusercontent.com/16select9394-spec/order-bot/main/ChatGPT%20Image%202026%E5%B9%B45%E6%9C%8824%E6%97%A5%20%E4%B8%8B%E5%8D%8810_25_06",
-    altText: "更多功能",
-    baseSize: {
-      width: 1040,
-      height: 1820
-    },
-    actions: [
+      type: "flex",
+      altText: "更多功能",
+      contents: {
+        type: "bubble",
 
-      {
-        type: "message",
-        text: "綁定教學",
-        area: {
-          x: 0,
-          y: 320,
-          width: 520,
-          height: 500
-        }
-      },
-
-      {
-        type: "message",
-        text: "代收",
-        area: {
-          x: 520,
-          y: 320,
-          width: 520,
-          height: 500
-        }
-      },
-
-      {
-        type: "uri",
-        linkUri: "https://myship.7-11.com.tw/seller/profile?id=GM2601202418281",
-        area: {
-          x: 0,
-          y: 820,
-          width: 520,
-          height: 500
-        }
-      },
-
-      {
-        type: "uri",
-        linkUri: "https://linktr.ee/16select",
-        area: {
-          x: 520,
-          y: 820,
-          width: 520,
-          height: 500
-        }
-      },
-
-      {
-        type: "uri",
-        linkUri: "https://lin.ee/jpYHz4Q",
-        area: {
-          x: 0,
-          y: 1320,
-          width: 520,
-          height: 500
-        }
-      },
-
-      {
-        type: "message",
-        text: "最新公告",
-        area: {
-          x: 520,
-          y: 1320,
-          width: 520,
-          height: 500
+        hero: {
+          type: "image",
+          url: "https://raw.githubusercontent.com/16select9394-spec/order-bot/main/ChatGPT%20Image%202026%E5%B9%B45%E6%9C%8824%E6%97%A5%20%E4%B8%8B%E5%8D%8810_25_06.png",
+          size: "full",
+          aspectRatio: "4:7",
+          aspectMode: "cover"
         }
       }
+    }
+  );
 
-    ]
-  }
-);
-
-continue;
-
+  continue;
 }
 
       // =========================
