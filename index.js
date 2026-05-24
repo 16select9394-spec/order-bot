@@ -41,67 +41,15 @@ if (msg === "更多功能") {
           url: "https://raw.githubusercontent.com/16select9394-spec/order-bot/main/2.png",
           size: "full",
           aspectRatio: "4:7",
-          aspectMode: "cover"
+          aspectMode: "cover",
+
+          action: {
+            type: "message",
+            label: "更多功能",
+            text: "功能選單"
+          }
         },
 
-        body: {
-          type: "box",
-          layout: "vertical",
-          spacing: "sm",
-          contents: [
-
-            {
-              type: "button",
-              style: "primary",
-              action: {
-                type: "message",
-                label: "初次購買綁定手機",
-                text: "綁定教學"
-              }
-            },
-
-            {
-              type: "button",
-              style: "primary",
-              action: {
-                type: "message",
-                label: "韓國日本代收代刷",
-                text: "代收"
-              }
-            },
-
-            {
-              type: "button",
-              style: "primary",
-              action: {
-                type: "uri",
-                label: "賣貨便現貨火速出貨",
-                uri: "https://myship.7-11.com.tw/seller/profile?id=GM2601202418281"
-              }
-            },
-
-            {
-              type: "button",
-              style: "primary",
-              action: {
-                type: "uri",
-                label: "分類查詢",
-                uri: "https://linktr.ee/16select"
-              }
-            },
-
-            {
-              type: "button",
-              style: "primary",
-              action: {
-                type: "uri",
-                label: "租借演唱會神機",
-                uri: "https://lin.ee/jpYHz4Q"
-              }
-            }
-
-          ]
-        }
       }
     }
   );
