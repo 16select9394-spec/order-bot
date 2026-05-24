@@ -47,12 +47,22 @@ if (msg === "更多功能") {
         body: {
           type: "box",
           layout: "vertical",
+          contents: [],
+          paddingAll: "0px",
+          margin: "0px",
+          spacing: "0px",
+          height: "0px"
+        },
+
+        footer: {
+          type: "box",
+          layout: "vertical",
           spacing: "none",
           contents: [
 
             {
               type: "button",
-              style: "link",
+              style: "secondary",
               color: "#FFFFFF00",
               height: "sm",
               action: {
@@ -64,7 +74,7 @@ if (msg === "更多功能") {
 
             {
               type: "button",
-              style: "link",
+              style: "secondary",
               color: "#FFFFFF00",
               height: "sm",
               action: {
@@ -76,7 +86,7 @@ if (msg === "更多功能") {
 
             {
               type: "button",
-              style: "link",
+              style: "secondary",
               color: "#FFFFFF00",
               height: "sm",
               action: {
@@ -88,7 +98,7 @@ if (msg === "更多功能") {
 
             {
               type: "button",
-              style: "link",
+              style: "secondary",
               color: "#FFFFFF00",
               height: "sm",
               action: {
@@ -100,7 +110,7 @@ if (msg === "更多功能") {
 
             {
               type: "button",
-              style: "link",
+              style: "secondary",
               color: "#FFFFFF00",
               height: "sm",
               action: {
@@ -112,7 +122,7 @@ if (msg === "更多功能") {
 
             {
               type: "button",
-              style: "link",
+              style: "secondary",
               color: "#FFFFFF00",
               height: "sm",
               action: {
@@ -122,7 +132,11 @@ if (msg === "更多功能") {
               }
             }
 
-          ]
+          ],
+
+          flex: 0,
+          paddingAll: "0px",
+          margin: "-720px"
         }
 
       }
