@@ -26,7 +26,19 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
 
       const msg = event.message.text.trim();
 
+if (msg === "更多功能") {
 
+  await client.replyMessage(
+    event.replyToken,
+    {
+      type: "image",
+      originalContentUrl: "https://你的圖片網址.png",
+      previewImageUrl: "https://你的圖片網址.png"
+    }
+  );
+
+  continue;
+}
 
       // =========================
       // 綁定
