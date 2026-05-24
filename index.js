@@ -26,41 +26,6 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
 
       const msg = event.message.text.trim();
 
-iif (msg === "more") {
-
-  await axios.post(
-    "https://api.line.me/v2/bot/user/" + event.source.userId + "/richmenu/switch",
-    {
-      richMenuAliasId: "more"
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.CHANNEL_ACCESS_TOKEN}`,
-        "Content-Type": "application/json"
-      }
-    }
-  );
-
-  continue;
-}
-
-if (msg === "home") {
-
-  await axios.post(
-    "https://api.line.me/v2/bot/user/" + event.source.userId + "/richmenu/switch",
-    {
-      richMenuAliasId: "home"
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.CHANNEL_ACCESS_TOKEN}`,
-        "Content-Type": "application/json"
-      }
-    }
-  );
-
-  continue;
-}
 
       // =========================
       // 綁定
