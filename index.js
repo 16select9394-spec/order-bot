@@ -32,8 +32,8 @@ if (msg === "更多功能") {
     event.replyToken,
     {
       type: "image",
-      originalContentUrl: "https://你的圖片網址.png",
-      previewImageUrl: "https://你的圖片網址.png"
+      originalContentUrl: "https://raw.githubusercontent.com/16select9394-spec/order-bot/main/more.jpg",
+      previewImageUrl: "https://raw.githubusercontent.com/16select9394-spec/order-bot/main/more.jpg"
     }
   );
 
