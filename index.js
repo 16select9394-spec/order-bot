@@ -26,6 +26,36 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
 
       const msg = event.message.text.trim();
 
+// =========================
+// 切換頁面
+// =========================
+
+if (msg === "更多功能") {
+
+  await client.replyMessage(
+    event.replyToken,
+    {
+      type: "text",
+      text: "切換中✨"
+    }
+  );
+
+  continue;
+}
+
+if (msg === "回首頁") {
+
+  await client.replyMessage(
+    event.replyToken,
+    {
+      type: "text",
+      text: "回首頁✨"
+    }
+  );
+
+  continue;
+}
+
       // =========================
       // 綁定
       // =========================
