@@ -36,7 +36,7 @@ if (msg === "更多功能") {
   try {
 
     await axios.post(
-      `https://api.line.me/v2/bot/user/${event.source.userId}/richmenu/alias/more`,
+      `https://api.line.me/v2/bot/user/${event.source.userId}/richmenu/richmenu-eda9f1df47f6e2f36ac31e28148b1455`,
       {},
       {
         headers: {
@@ -58,7 +58,7 @@ if (msg === "回首頁") {
   try {
 
     await axios.post(
-      `https://api.line.me/v2/bot/user/${event.source.userId}/richmenu/alias/home`,
+      `https://api.line.me/v2/bot/user/${event.source.userId}/richmenu/richmenu-16423ce22afabfdb54bbfa6c5828dea0`,
       {},
       {
         headers: {
