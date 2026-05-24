@@ -30,28 +30,46 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
 // 切換頁面
 // =========================
 
+// 更多功能
 if (msg === "更多功能") {
 
-  await client.replyMessage(
-    event.replyToken,
-    {
-      type: "text",
-      text: "切換中✨"
-    }
-  );
+  try {
+
+    await axios.post(
+      `https://api.line.me/v2/bot/user/${event.source.userId}/richmenu/alias/more`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${config.channelAccessToken}`
+        }
+      }
+    );
+
+  } catch (err) {
+    console.log(err);
+  }
 
   continue;
 }
 
+// 回首頁
 if (msg === "回首頁") {
 
-  await client.replyMessage(
-    event.replyToken,
-    {
-      type: "text",
-      text: "回首頁✨"
-    }
-  );
+  try {
+
+    await axios.post(
+      `https://api.line.me/v2/bot/user/${event.source.userId}/richmenu/alias/home`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${config.channelAccessToken}`
+        }
+      }
+    );
+
+  } catch (err) {
+    console.log(err);
+  }
 
   continue;
 }
