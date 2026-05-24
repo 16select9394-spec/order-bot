@@ -53,10 +53,11 @@ if (msg === "更多功能") {
             {
               type: "button",
               style: "link",
+              color: "#FFFFFF00",
               height: "sm",
               action: {
                 type: "message",
-                label: "初次購買綁定手機",
+                label: " ",
                 text: "綁定教學"
               }
             },
@@ -64,10 +65,11 @@ if (msg === "更多功能") {
             {
               type: "button",
               style: "link",
+              color: "#FFFFFF00",
               height: "sm",
               action: {
                 type: "message",
-                label: "韓國日本代收代刷",
+                label: " ",
                 text: "代收"
               }
             },
@@ -75,10 +77,11 @@ if (msg === "更多功能") {
             {
               type: "button",
               style: "link",
+              color: "#FFFFFF00",
               height: "sm",
               action: {
                 type: "uri",
-                label: "賣貨便現貨火速出貨",
+                label: " ",
                 uri: "https://myship.7-11.com.tw/seller/profile?id=GM2601202418281"
               }
             },
@@ -86,10 +89,11 @@ if (msg === "更多功能") {
             {
               type: "button",
               style: "link",
+              color: "#FFFFFF00",
               height: "sm",
               action: {
                 type: "uri",
-                label: "分類查詢",
+                label: " ",
                 uri: "https://linktr.ee/16select"
               }
             },
@@ -97,10 +101,11 @@ if (msg === "更多功能") {
             {
               type: "button",
               style: "link",
+              color: "#FFFFFF00",
               height: "sm",
               action: {
                 type: "uri",
-                label: "租借演唱會神機",
+                label: " ",
                 uri: "https://lin.ee/jpYHz4Q"
               }
             },
@@ -108,10 +113,11 @@ if (msg === "更多功能") {
             {
               type: "button",
               style: "link",
+              color: "#FFFFFF00",
               height: "sm",
               action: {
                 type: "message",
-                label: "最新公告",
+                label: " ",
                 text: "最新公告"
               }
             }
