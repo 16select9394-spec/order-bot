@@ -26,7 +26,7 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
 
       const msg = event.message.text.trim();
 
-if (msg === "更多功能") {
+iif (msg === "more") {
 
   await axios.post(
     "https://api.line.me/v2/bot/user/" + event.source.userId + "/richmenu/switch",
@@ -44,7 +44,7 @@ if (msg === "更多功能") {
   continue;
 }
 
-if (msg === "回首頁") {
+if (msg === "home") {
 
   await axios.post(
     "https://api.line.me/v2/bot/user/" + event.source.userId + "/richmenu/switch",
