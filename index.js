@@ -45,7 +45,7 @@ app.post("/webhook", line.middleware(config), async (req, res) => {
             event.replyToken,
             {
               type: "text",
-              text: "綁定成功✨可以開始查詢囉"
+              text: "綁定成功✨訂單還尚未補進系統要10分鐘後再查詢唷"
             }
           );
 
